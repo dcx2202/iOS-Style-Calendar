@@ -74,7 +74,6 @@ class Calendar extends React.PureComponent {
             events={this.returnDailyEvents()}
             onClickEvent={this.props.onClickEvent}
             onClickTimeLine={this.onClickTimeLine}
-            icon={this.props.icon}
           />
         );
     }

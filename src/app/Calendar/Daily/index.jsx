@@ -33,11 +33,15 @@ export default class Daily extends React.Component {
   getTimeLineEvents() {
     const { events } = this.props;
     if (Array.isArray(events) && events.length) {
-      return events.filter(e => (
-        e.position !== middlePosition &&
-        !e.allDay &&
-        !(e.position === endPosition && this.getTimeInHours(new Date(e.to)) === 0)
-      ));
+      return events.filter(
+        (e) =>
+          e.position !== middlePosition &&
+          !e.allDay &&
+          !(
+            e.position === endPosition &&
+            this.getTimeInHours(new Date(e.to)) === 0
+          )
+      );
     }
     return [];
   }
@@ -45,11 +49,13 @@ export default class Daily extends React.Component {
   getAllDayEvents() {
     const { events } = this.props;
     if (Array.isArray(events) && events.length) {
-      return events.filter(e => (
-        e.position === middlePosition ||
-        e.allDay ||
-        (e.position === endPosition && this.getTimeInHours(new Date(e.to)) === 0)
-      ));
+      return events.filter(
+        (e) =>
+          e.position === middlePosition ||
+          e.allDay ||
+          (e.position === endPosition &&
+            this.getTimeInHours(new Date(e.to)) === 0)
+      );
     }
     return [];
   }
@@ -68,14 +74,17 @@ export default class Daily extends React.Component {
         let toDate = new Date(event.to);
         let fromHour = this.getTimeInHours(fromDate);
         let toHour = this.getTimeInHours(toDate);
-        console.log('toHour',toHour);
+        console.log('toHour', toHour);
         if (event.position === endPosition) {
           fromHour = 0;
           if (toHour === 0) {
             toHour = 24;
           }
         }
-        if (event.position === startPosition || (event.span === 1 && toHour === 0)) {
+        if (
+          event.position === startPosition ||
+          (event.span === 1 && toHour === 0)
+        ) {
           toHour = 24;
         }
         const timeDiff = toHour - fromHour;
@@ -94,14 +103,22 @@ export default class Daily extends React.Component {
 
         document.getElementById(id).style.top = `${eventPosition}px`;
         document.getElementById(id).style.height = `${eventHeight}px`;
-        document.getElementById(id).style.width = `calc((100% / ${dayEvents.length}) - 10px)`;
-        document.getElementById(id).style.left = `calc((100% / ${dayEvents.length}) * ${index})`;
+        document.getElementById(
+          id
+        ).style.width = `calc((100% / ${dayEvents.length}) - 10px)`;
+        document.getElementById(
+          id
+        ).style.left = `calc((100% / ${dayEvents.length}) * ${index})`;
       });
     }
   }
 
   getTimeInHours(date) {
-    return date.getUTCHours() + date.getUTCMinutes() / 60 + date.getUTCSeconds() / 3600000;
+    return (
+      date.getUTCHours() +
+      date.getUTCMinutes() / 60 +
+      date.getUTCSeconds() / 3600000
+    );
   }
 
   // handleEventWidth(eventWidthHandled, events, fromHour, toHour, currentId) {
@@ -198,7 +215,7 @@ export default class Daily extends React.Component {
       return (
         <div key={i} className={styles.dailyHourWrapper}>
           <div className={styles.dailyHour}>
-            <div className={styles.dailyHourLine}/>
+            <div className={styles.dailyHourLine} />
           </div>
         </div>
       );
@@ -208,7 +225,7 @@ export default class Daily extends React.Component {
   returnEvents() {
     const dayEvents = this.getTimeLineEvents();
     if (Array.isArray(dayEvents) && dayEvents.length) {
-      return dayEvents.map(event => {
+      return dayEvents.map((event) => {
         return (
           <div
             key={event.id}
@@ -218,6 +235,7 @@ export default class Daily extends React.Component {
             <Event
               color={event.color}
               title={event.title}
+              icon={event.icon}
               onClick={() => this.onClickEvent(event.id)}
             />
           </div>
@@ -236,8 +254,11 @@ export default class Daily extends React.Component {
     if (this.props.onClickTimeLine) {
       const scrollTop = document.getElementById('dailyTimeLine').scrollTop;
       const clientY = event.clientY;
-      let rect = document.getElementById('dailyTimeLine').getBoundingClientRect();
-      const positionY = clientY + scrollTop - rect.top - (this.returnHourHeaderHeight() / 2);
+      let rect = document
+        .getElementById('dailyTimeLine')
+        .getBoundingClientRect();
+      const positionY =
+        clientY + scrollTop - rect.top - this.returnHourHeaderHeight() / 2;
       let hourPosition = positionY / this.returnHourWrapperHeight();
       let hour = Math.round(hourPosition * 2) / 2;
       if (hour <= 0) {
@@ -252,12 +273,14 @@ export default class Daily extends React.Component {
 
   returnTimeLine() {
     return (
-      <div id='dailyTimeLine' className={styles.dailyTimeLineWrapper} onClick={this.onClickTimeLine}>
+      <div
+        id="dailyTimeLine"
+        className={styles.dailyTimeLineWrapper}
+        onClick={this.onClickTimeLine}
+      >
         <div className={styles.dailyHourTextWrapper}>{this.returnHours()}</div>
         <div className={styles.dailyTimeLine}>
-          <div>
-            {this.returnEvents()}
-          </div>
+          <div>{this.returnEvents()}</div>
           {this.returnHoursLine()}
         </div>
       </div>
@@ -266,14 +289,15 @@ export default class Daily extends React.Component {
 
   returnAllDayEvents() {
     const dailyEvents = this.getAllDayEvents();
-    console.log('dailyEvents',dailyEvents);
+    console.log('dailyEvents', dailyEvents);
     if (Array.isArray(dailyEvents) && dailyEvents.length) {
-      return dailyEvents.map(event => {
+      return dailyEvents.map((event) => {
         return (
           <div key={event.id} className={styles.allDayEvent}>
             <Event
               color={event.color}
               title={event.title}
+              icon={event.icon}
               onClick={() => this.onClickEvent(event.id)}
             />
           </div>
