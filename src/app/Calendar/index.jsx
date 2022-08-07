@@ -55,10 +55,7 @@ class Calendar extends React.PureComponent {
     switch (this.state.mode) {
       case yearlyMode:
         return (
-          <Yearly
-            year={this.state.year}
-            onClickMonth={this.onClickMonth}
-          />
+          <Yearly year={this.state.year} onClickMonth={this.onClickMonth} />
         );
       case monthlyMode:
         return (
@@ -77,6 +74,7 @@ class Calendar extends React.PureComponent {
             events={this.returnDailyEvents()}
             onClickEvent={this.props.onClickEvent}
             onClickTimeLine={this.onClickTimeLine}
+            icon={this.props.icon}
           />
         );
     }
@@ -98,13 +96,14 @@ class Calendar extends React.PureComponent {
     const day = date.getDate();
     const month = date.getMonth();
     const year = date.getFullYear();
-    this.setState({
+    this.setState(
+      {
         mode: dailyMode,
         day,
         month,
         year,
       },
-      this.onChange,
+      this.onChange
     );
   }
 
@@ -114,7 +113,7 @@ class Calendar extends React.PureComponent {
         month,
         mode: monthlyMode,
       },
-      this.onChange,
+      this.onChange
     );
   }
 
@@ -142,7 +141,7 @@ class Calendar extends React.PureComponent {
         mode,
         ...date,
       },
-      this.onChange,
+      this.onChange
     );
   }
 
@@ -191,7 +190,7 @@ Calendar.propTypes = {
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-    }),
+    })
   ),
   onClickEvent: PropTypes.func,
   header: PropTypes.func,

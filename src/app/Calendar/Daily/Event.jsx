@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Event.styles.scss';
+import { HiOfficeBuilding } from 'react-icons/hi';
 
 export default class Event extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class Event extends React.Component {
         className={styles.dailyEventWrapper}
       >
         <span className={styles.dailyEventTitle}>{this.props.title}</span>
+        <div>{this.props.icon}</div>
       </div>
     );
   }
