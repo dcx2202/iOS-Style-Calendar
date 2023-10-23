@@ -24,14 +24,15 @@ export default class Header extends React.PureComponent {
           </React.Fragment>
         );
       case dailyMode:
+        let weekDay = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"][Date.parse(`${year}-${month}-${day}`).getDay()]
+        
         return (
           <React.Fragment>
+            <span className={styles.thinText}>{weekDay},</span>
+            &nbsp;
             <span className={styles.thickText}>{day}</span>
             &nbsp;
             <span className={styles.thickText}>{monthName}</span>
-            &nbsp;
-            <span className={styles.thinText}>{year}</span>
-            &nbsp;
           </React.Fragment>
         );
     }
